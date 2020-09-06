@@ -1,0 +1,144 @@
+@import '~styles/config';
+
+.sidebar {
+  display: none;
+
+  @include breakpoint(lg) {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 260px;
+    z-index: 98;
+    background-color: #242939;
+  }
+
+  &__brand {
+    @include rem(font-size, 24px);
+    @include rem(margin-bottom, 30px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: $color-white;
+    font-weight: 600;
+    background-color: #1B1F2B;
+
+    a {
+      @include rem(padding, 22px 30px);
+      display: block;
+      width: 100%;
+      color: $color-white;
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+      }
+    }
+
+    img {
+      @include rem(margin-right, 10px);
+      @include rem(margin-top, -4px);
+      max-width: 22px;
+      max-height: 22px;
+    }
+  }
+
+  &__nav {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &Item {
+      display: flex;
+      flex-direction: column;
+      color: $color-white;
+    }
+
+    &Link {
+      @include rem(padding, 15px 20px);
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      align-items: stretch;
+      color: #c0c4d1;
+      transition: background-color 0.3s;
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+        background-color: #1f2433;
+      }
+
+      &___active {
+        color: $color-white;
+        text-decoration: none;
+        background-color: #1f2433;
+      }
+    }
+
+    &Text {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+    }
+
+    &Icon {
+      display: flex;
+      flex: 0 0 40px;
+      align-items: center;
+      margin-top: 4px;
+      color: #434d6b;
+    }
+
+    &Caret {
+      display: flex;
+      flex: 0 0 20px;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 4px;
+      color: #434d6b;
+    }
+
+  }
+
+  &__subnav {
+    @include rem(padding, 0 12px);
+    margin: 0;
+    list-style: none;
+    background-color: #2e3449;
+
+    &Link {
+      @include rem(padding, 9px 20px);
+      display: flex;
+      color: $color-white;
+
+      &:hover {
+        color: $color-white;
+        text-decoration: none;
+      }
+    }
+
+    &Item {
+      display: flex;
+      flex-direction: column;
+      color: $color-white;
+    }
+
+    &Text {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+    }
+
+    &Dash {
+      display: flex;
+      flex: 40px 0 0;
+      align-items: center;
+      justify-content: flex-start;
+      margin-top: 4px;
+      color: $color-white;
+    }
+  }
+}

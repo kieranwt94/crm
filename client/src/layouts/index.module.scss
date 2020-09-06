@@ -1,0 +1,48 @@
+@import '~styles/config';
+
+.page {
+    position: relative;
+
+    @include breakpoint(md) {
+        display: flex;
+        flex-direction: row;
+    }
+
+    @include breakpoint(lg) {
+        flex-direction: column;
+        padding-left: 260px;
+    }
+
+    &-login {
+        padding-left: 0;
+        width: 100%;
+
+        @include breakpoint(md) {
+            width: 40%;
+            margin: 0 auto;
+        }
+    }
+
+    .navbar {
+        &-fixed {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #1B1F2B;
+            z-index: 99999;
+
+            @include breakpoint(md) {
+                display: none;
+            }
+        }
+
+        &-brand {
+            img {
+                @include rem(margin-right, 10px);
+                @include rem(margin-top, -4px);
+                max-width: 22px;
+                max-height: 22px;
+            }
+        }
+    }
+}

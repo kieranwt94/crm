@@ -1,0 +1,113 @@
+@import '~styles/config';
+
+.header {
+  display: none;
+
+  @include breakpoint(md) {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 97;
+    background-color: $color-white;
+    box-shadow: 0px 0px 40px 0px rgba(82, 63, 105, 0.1);
+  }
+
+  @include breakpoint(lg) {
+    left: 260px;
+  }
+
+  &__inner {
+    @include rem(padding, 15px 30px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @include breakpoint(md) {
+      flex-direction: row;
+    }
+  }
+
+  &__left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__search {
+    @include border-radius(4px);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+
+    @include breakpoint(md) {
+      width: 350px;
+    }
+
+    &-box {
+      @include border-radius(50px!important);
+      border: 1px solid #e1e1ef!important;
+      border-right: 0!important;
+      color: #212529!important;
+    }
+
+    &-button {
+      @include border-right-radius(50px!important);
+      position: absolute;
+      right: 0;
+      border: 0!important;
+      color: #212529!important;
+
+      &:hover {
+        background-color: $color-white!important;
+      }
+    }
+  }
+
+  &__user {
+    @include rem(padding, 5px 5px 5px 15px!important);
+    @include border-radius(40px!important);
+    display: flex!important;
+    flex-direction: row;
+    align-items: center;
+    transition: background-color .2s ease-in!important;
+    border: none!important;
+    background-color: $color-white!important;
+    color: #212529!important;
+    height: 50px;
+    margin-right: 0;
+
+    &:hover {
+      background-color: $color-grey!important;
+      cursor: pointer;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 1px $color-grey!important;
+    }
+
+    &-avatar {
+      @include rem(padding, 8px);
+      @include rem(margin-left, 5px);
+      @include border-radius(50%);
+      background-color: $color-blue;
+
+      span {
+        color: $color-white;
+      }
+
+      &--admin {
+        background-color: $color-red;
+      }
+    }
+  }
+
+}

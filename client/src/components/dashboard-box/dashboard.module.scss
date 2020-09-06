@@ -1,0 +1,83 @@
+@import '~styles/config';
+
+.dashboardBox {
+  position: relative;
+  border-radius: 4px;
+  background-clip: padding-box;
+  padding: 20px;
+  color: $color-white;
+  background-color: $color-white;
+  box-shadow: 0 4px 10px 3px rgba(0,0,0,.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+
+  @include breakpoint(md) {
+    &:nth-child(4),
+    &:nth-child(5),
+    &:nth-child(6) {
+      margin-bottom: 0;
+    }
+  }
+
+  @include breakpoint(lg) {
+    margin-bottom: 0;
+  }
+
+  a {
+    color: $color-white;
+
+    &:hover {
+      cursor: pointer;
+      color: $color-white;
+      text-decoration: none;
+    }
+  }
+
+  &___blue {
+    background-color: $color-blue;
+    color: $color-white;
+  }
+
+  &___green {
+    background-color: $color-green;
+    color: $color-white;
+  }
+
+  &___orange {
+    background-color: $color-orange;
+    color: $color-white;
+  }
+
+  &___purple {
+    background-color: $color-purple;
+    color: $color-white;
+  }
+
+  &___red {
+    background-color: $color-red;
+    color: $color-white;
+  }
+
+  &___yellow {
+    background-color: $color-yellow;
+    color: $color-white;
+  }
+
+  &__total {
+    @include rem(font-size, 36px);
+    display: block;
+  }
+
+  &__title {
+    @include rem(font-size, 16px);
+    display: block;
+  }
+
+  &__icon {
+    @include rem(font-size, 80px);
+    color: rgba(0,0,0,.25);
+    position: absolute;
+    right: -11px;
+    top: 25px;
+  }
+}

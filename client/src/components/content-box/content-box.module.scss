@@ -1,0 +1,96 @@
+@import '~styles/config';
+
+.contentBox {
+  @include rem(margin-bottom, 20px);
+  @include border-radius(4px);
+  position: relative;
+  background-clip: padding-box;
+  background-color: $color-white;
+  box-shadow: 0px 0px 13px 0px rgba(82, 63, 105, 0.05);
+
+  &___tabs {
+    border-top-left-radius: 0;
+    background-clip: padding-box;
+  }
+
+  &__header {
+    @include rem(padding, 0 20px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 4px 4px 0 0;
+    background-color: $color-white;
+    color: $color-black;
+    min-height: 60px;
+    border-bottom: 1px solid #ebedf2;
+
+    &___black {
+      background-color: $color-black;
+      color: $color-white;
+      border-bottom: 1px solid $color-black;
+    }
+
+    &___blue {
+      background-color: $color-blue;
+      color: $color-white;
+      border-bottom: 1px solid $color-blue;
+    }
+
+    &___turquiose {
+      background-color: $color-turquiose;
+      color: $color-white;
+      border-bottom: 1px solid $color-turquiose;
+    }
+
+    &___green {
+      background-color: $color-green;
+      color: $color-white;
+      border-bottom: 1px solid $color-green;
+    }
+
+    &___grey {
+      background-color: $color-grey;
+      color: $color-white;
+      border-bottom: 1px solid $color-grey;
+    }
+
+    &___orange {
+      background-color: $color-orange;
+      color: $color-white;
+      border-bottom: 1px solid $color-orange;
+    }
+
+    &___purple {
+      background-color: $color-purple;
+      color: $color-white;
+      border-bottom: 1px solid $color-purple;
+    }
+
+    &___red {
+      background-color: $color-red;
+      color: $color-white;
+      border-bottom: 1px solid $color-red;
+    }
+
+    &___yellow {
+      background-color: $color-yellow;
+      color: $color-white;
+      border-bottom: 1px solid $color-yellow;
+    }
+
+    h3 {
+      margin-bottom: 0;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__body {
+    @include rem(padding, 20px);
+
+    table {
+      margin-bottom: 0;
+      border: 0!important;
+    }
+  }
+}
+

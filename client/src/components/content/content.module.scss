@@ -1,0 +1,14 @@
+@import '~styles/config';
+
+.content {
+    width: 100%;
+    margin-top: 55px;
+
+    @include breakpoint(md) {
+        margin-top: 85px;
+    }
+
+    &__container {
+        max-width: 100%!important;
+    }
+}

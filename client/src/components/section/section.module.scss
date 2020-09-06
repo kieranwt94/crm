@@ -1,0 +1,7 @@
+.section {
+    display: block;
+
+    > div {
+        max-width: 100%!important;
+    }
+}
