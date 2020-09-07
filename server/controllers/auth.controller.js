@@ -22,7 +22,13 @@ const login = async (req, res) => {
         res.status(200).json({
           error: false,
           message: 'Login successful.',
-          token: token
+          data: {
+            token: token,
+            user: {
+              id: user.id,
+              name: user.name
+            }
+          }
         });
       } else {
         return res.status(422).send(`Wrong password.`);
