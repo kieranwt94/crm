@@ -1,5 +1,6 @@
 require('dotenv').config();
 module.exports = {
+  "secret": process.env.JWT_TOKEN,
   "development": {
     "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
