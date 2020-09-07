@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     name: DataTypes.STRING,
     password: DataTypes.STRING,
-    email_address: DataTypes.STRING
+    email_address: DataTypes.STRING,
+    role: DataTypes.STRING
   }, {});
 
   function cryptPassword(password) {
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   User.beforeCreate(function (user, options) {
+    user.role = 'user';
     return cryptPassword(user.password)
       .then((success) => {
         user.password = success;
@@ -28,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.beforeBulkCreate(function (user, options) {
+    user.role = 'user';
     return cryptPassword(user.password)
       .then((success) => {
         user.password = success;
