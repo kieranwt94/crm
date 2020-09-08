@@ -17,7 +17,7 @@ const login = async (req, res) => {
       }
       if (isMatch) {
         const token = jwt.sign(user.toJSON(), process.env.JWT_TOKEN, {
-          expiresIn: 3600
+          expiresIn: process.env.JWT_TOKEN_EXPIRY
         });
         res.status(200).json({
           error: false,
