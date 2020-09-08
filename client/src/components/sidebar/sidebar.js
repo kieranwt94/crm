@@ -8,7 +8,7 @@ export default() => (
   <aside className={s.sidebar}>
     <div className={s.sidebar__brand}>
       <Link to="/">
-        <img src="https://s3-eu-west-1.amazonaws.com/crm.bluesquareoffices.com/bso-square.png" alt="Blue Square Offices logo" />
+        <img src="https://s3-eu-west-1.amazonaws.com/bso.media.cdn/bso/bso-square.png" alt="Blue Square Offices logo" />
         <span className={s.sidebar__brandName}>BSO CRM</span>
       </Link>
     </div>
