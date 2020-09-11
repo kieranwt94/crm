@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Layout from 'layouts';
 import { Dashboard } from 'pages/dashboard';
+import { Login } from 'pages/login';
 import { BrandsList, BrandSingle, BrandCreate, BrandEdit } from 'pages/brands';
 import { CustomersList, CustomerSingle, CustomerCreate, CustomerEdit } from 'pages/customers';
 import { OrdersList, OrderSingle, OrderCreate, OrderEdit } from 'pages/orders';
@@ -13,25 +14,29 @@ import Spinner from 'components/spinner/spinner';
 
 import './styles/style.scss';
 
-const routing = (
+const App = () => (
   <>
     <Router>
       <Layout>
         <Switch>
-          <Route path="/" children={<Dashboard />} exact />
-          <Route path="/brands" children={<BrandsList />} exact />
-          <Route path="/brands/:id" children={<BrandSingle />} exact />
-          <Route path="/customers" children={<CustomersList />} exact />
-          <Route path="/orders" children={<OrdersList />} exact />
-          <Route path="/services" children={<ServicesList />} exact />
+          <Route path="/login" children={<Login />} />
+          <Route path="/brands" children={<BrandsList />} />
+          <Route path="/brands/:id" children={<BrandSingle />} />
+          <Route path="/customers" children={<CustomersList />} />
+          <Route path="/customers/:id" children={<CustomerSingle />} />
+          <Route path="/orders" children={<OrdersList />} />
+          <Route path="/orders/:id" children={<OrderSingle />} />
+          <Route path="/services" children={<ServicesList />} />
+          <Route path="/services/:id" children={<ServiceSingle />} />
+          <Route path="/" children={<Dashboard />} />
         </Switch>
       </Layout>
     </Router>
     <Spinner />
   </>
-)
+);
 
 ReactDOM.render(
-  routing,
+  <App />,
   document.getElementById('root')
 );
