@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useContext } from 'react'; 
 import { Row, Col } from 'reactstrap';
 import axios from 'axios';
 import { trackPromise } from 'react-promise-tracker';
@@ -9,9 +9,12 @@ import ContentBox from 'components/content-box/content-box';
 import DashboardBox from 'components/dashboard-box/dashboard-box';
 import LatestOrders from 'components/latest-orders/latest-orders';
 import { OrdersByBrand } from 'components/charts';
+import UserContext from 'contexts/user';
 import { capitalize } from 'utils';
 
 export const Dashboard = () => {
+    const { userData } = useContext(UserContext);
+    const { token } = userData;
     const [stats, setStats] = useState([]);
     const [latestOrders, setLatestOrders] = useState([]);
     const colours = ['red', 'orange', 'yellow', 'green'];
@@ -19,7 +22,9 @@ export const Dashboard = () => {
 
     useEffect(() => {
         const fetchStats = async () => {
-            const response = await axios.get(`/api/dashboard/stats/`);
+            const response = await axios.get(`/api/dashboard/stats/`, {
+                headers: { 'x-auth-token': token },
+            });
             setStats(response.data.stats);
         }
         trackPromise(fetchStats());
@@ -27,7 +32,9 @@ export const Dashboard = () => {
 
     useEffect(() => {
         const fetchLatestOrders = async () => {
-            const response = await axios.get(`/api/dashboard/latest-orders/`);
+            const response = await axios.get(`/api/dashboard/latest-orders/`, {
+                headers: { 'x-auth-token': token },
+            });
             setLatestOrders(response.data.orders);
         }
         trackPromise(fetchLatestOrders());
