@@ -12,5 +12,7 @@ export const getBrandColour = (name) => {
         case 'Blue Square Offices':
             return '#006B9E';
             break;
+        default:
+            return 'red';
     }
 }

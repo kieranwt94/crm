@@ -5,35 +5,57 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Layout from 'layouts';
 import { Dashboard } from 'pages/dashboard';
 import { Login } from 'pages/login';
-import { BrandsList, BrandSingle, BrandCreate, BrandEdit } from 'pages/brands';
-import { CustomersList, CustomerSingle, CustomerCreate, CustomerEdit } from 'pages/customers';
-import { OrdersList, OrderSingle, OrderCreate, OrderEdit } from 'pages/orders';
-import { ServicesList, ServiceSingle, ServiceCreate, ServiceEdit } from 'pages/services';
-import { UsersList, UserSingle, UserCreate, UserEdit } from 'pages/users';
+import { BrandsList, BrandSingle } from 'pages/brands';
+import { CustomersList, CustomerSingle } from 'pages/customers';
+import { OrdersList, OrderSingle } from 'pages/orders';
+import { ServicesList, ServiceSingle } from 'pages/services';
+import { UsersList, UserSingle } from 'pages/users';
 import Spinner from 'components/spinner/spinner';
+import PrivateRoute from 'components/routing';
+import AuthState from 'context/auth/auth.state';
+import AlertState from 'context/alert/alert.state';
+import BrandState from 'context/brand/brand.state';
+import CustomerState from 'context/customer/customer.state';
+import OrderState from 'context/order/order.state';
+import ServiceState from 'context/service/service.state';
+import UserState from 'context/user/user.state';
 
 import './styles/style.scss';
 
 const App = () => (
-  <>
-    <Router>
-      <Layout>
-        <Switch>
-          <Route path="/login" children={<Login />} />
-          <Route path="/brands" children={<BrandsList />} />
-          <Route path="/brands/:id" children={<BrandSingle />} />
-          <Route path="/customers" children={<CustomersList />} />
-          <Route path="/customers/:id" children={<CustomerSingle />} />
-          <Route path="/orders" children={<OrdersList />} />
-          <Route path="/orders/:id" children={<OrderSingle />} />
-          <Route path="/services" children={<ServicesList />} />
-          <Route path="/services/:id" children={<ServiceSingle />} />
-          <Route path="/" children={<Dashboard />} />
-        </Switch>
-      </Layout>
-    </Router>
-    <Spinner />
-  </>
+  <AuthState>
+    <BrandState>
+      <CustomerState>
+        <OrderState>
+          <ServiceState>
+            <UserState>
+              <AlertState>
+                <Router>
+                  <Layout>
+                    <Switch>
+                      <PrivateRoute exact path="/" component={Dashboard} />
+                      <PrivateRoute exact path="/brands" component={BrandsList} />
+                      <PrivateRoute exact path="/brands/:id" component={BrandSingle} />
+                      <PrivateRoute exact path="/customers" component={CustomersList} />
+                      <PrivateRoute exact path="/customers/:id" component={CustomerSingle} />
+                      <PrivateRoute exact path="/orders" component={OrdersList} />
+                      <PrivateRoute exact path="/orders/:id" component={OrderSingle} />
+                      <PrivateRoute exact path="/services" component={ServicesList} />
+                      <PrivateRoute exact path="/services/:id" component={ServiceSingle} />
+                      <PrivateRoute exact path="/users" component={UsersList} />
+                      <PrivateRoute exact path="/users/:id" component={UserSingle} />
+                      <Route exact path="/login" component={Login} />
+                    </Switch>
+                  </Layout>
+                </Router>
+                <Spinner />
+              </AlertState>
+            </UserState>
+          </ServiceState>
+        </OrderState>
+      </CustomerState>
+    </BrandState>
+  </AuthState>
 );
 
 ReactDOM.render(

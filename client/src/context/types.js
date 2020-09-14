@@ -1,0 +1,53 @@
+export const GET_BRANDS = 'GET_BRANDS';
+export const ADD_BRAND = 'ADD_BRAND';
+export const DELETE_BRAND = 'DELETE_BRAND';
+export const SET_CURRENT_BRAND = 'SET_CURRENT_BRAND';
+export const CLEAR_CURRENT_BRAND = 'CLEAR_CURRENT_BRAND';
+export const UPDATE_BRAND = 'UPDATE_BRAND';
+export const CLEAR_BRANDS = 'CLEAR_BRANDS';
+export const BRAND_ERROR = 'BRAND_ERROR';
+
+export const GET_CUSTOMERS = 'GET_CUSTOMERS';
+export const ADD_CUSTOMER = 'ADD_CUSTOMER';
+export const DELETE_CUSTOMER = 'DELETE_CUSTOMER';
+export const SET_CURRENT_CUSTOMER = 'SET_CURRENT_CUSTOMER';
+export const CLEAR_CURRENT_CUSTOMER = 'CLEAR_CURRENT_CUSTOMER';
+export const UPDATE_CUSTOMER = 'UPDATE_CUSTOMER';
+export const CLEAR_CUSTOMERS = 'CLEAR_CUSTOMERS';
+export const CUSTOMER_ERROR = 'CUSTOMER_ERROR';
+
+export const GET_ORDERS = 'GET_ORDERS';
+export const ADD_ORDER = 'ADD_ORDER';
+export const DELETE_ORDER = 'DELETE_ORDER';
+export const SET_CURRENT_ORDER = 'SET_CURRENT_ORDER';
+export const CLEAR_CURRENT_ORDER = 'CLEAR_CURRENT_ORDER';
+export const UPDATE_ORDER = 'UPDATE_ORDER';
+export const CLEAR_ORDERS = 'CLEAR_ORDERS';
+export const ORDER_ERROR = 'ORDER_ERROR';
+
+export const GET_SERVICES = 'GET_SERVICES';
+export const ADD_SERVICE = 'ADD_SERVICE';
+export const DELETE_SERVICE = 'DELETE_SERVICE';
+export const SET_CURRENT_SERVICE = 'SET_CURRENT_SERVICE';
+export const CLEAR_CURRENT_SERVICE = 'CLEAR_CURRENT_SERVICE';
+export const UPDATE_SERVICE = 'UPDATE_SERVICE';
+export const CLEAR_SERVICES = 'CLEAR_SERVICES';
+export const SERVICE_ERROR = 'SERVICE_ERROR';
+
+export const GET_USERS = 'GET_USERS';
+export const ADD_USER = 'ADD_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const CLEAR_CURRENT_USER = 'CLEAR_CURRENT_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+export const CLEAR_USERS = 'CLEAR_USERS';
+export const USER_ERROR = 'USER_ERROR';
+
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';

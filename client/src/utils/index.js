@@ -1,3 +1,4 @@
+export * from './auth';
 export * from './brand';
 export * from './capitalize';
 export * from './initials';

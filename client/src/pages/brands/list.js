@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Button } from 'reactstrap';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -10,12 +9,9 @@ import pluralize from 'pluralize';
 import Hero from 'components/hero/hero';
 import Section from 'components/section/section';
 import ContentBox from 'components/content-box/content-box';
-import UserContext from 'contexts/user';
 import { formatActionButton } from 'utils';
 
 export const BrandsList = () => {
-    const { userData } = useContext(UserContext);
-    const { token } = userData;
     const [brands, setBrands] = useState([]);
     const { SearchBar } = Search;
     const type = 'brand';
@@ -28,9 +24,7 @@ export const BrandsList = () => {
 
     useEffect(() => {
         const fetchBrands = async () => {
-            const response = await axios.get(`/api/brands/`, {
-                headers: { 'x-auth-token': token },
-            });
+            const response = await axios.get(`/api/brands/`);
             setBrands(response.data.brands);
         }
         fetchBrands();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect } from 'react';
 import axios from 'axios';
 import groupBy from 'lodash.groupby'; 
 import { PieChart } from 'react-minimal-pie-chart';
@@ -9,7 +9,7 @@ import { getBrandColour } from 'utils';
 import s from './charts.module.scss';
 
 export default () => {
-    const [data, setData] = useState([]);
+    const data = [];
     const defaultLabelStyle = {
         fontSize: '5px',
         fontFamily: 'sans-serif',
@@ -18,7 +18,7 @@ export default () => {
         const fetchOrders = async () => {
             const response = await axios.get(`/api/orders/`);
             const items = groupBy(response.data.orders, order => order.brand.name);
-            Object.entries(items).forEach(([key, value], index) => {
+            Object.entries(items).forEach(([key, value]) => {
                 const obj = {};
                 obj.title = key;
                 obj.value = value.length;
@@ -27,7 +27,7 @@ export default () => {
             });
         }
         fetchOrders();
-    }, []);
+    }, [data]);
 
     return (
         <div className={s.charts}>

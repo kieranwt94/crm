@@ -1,52 +1,61 @@
-import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Container, Form, Alert, FormGroup, Label, Input, Button } from 'reactstrap';
-import axios from 'axios';
+import React, { useState, useContext, useEffect } from 'react';
+import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 import Section from 'components/section/section';
 import ContentBox from 'components/content-box/content-box';
-import UserContext from 'contexts/user';
+import AuthContext from 'context/auth/auth.context';
+import AlertContext from 'context/alert/alert.context';
 
-export const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState();
-    const { setUserData } = useContext(UserContext);
-    const history = useHistory();
-
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        try {
-            const data = {
-                email_address: email,
-                password: password
-            };
-            const login = await axios.post('/api/auth/login', data);
-            setUserData({
-                token: login.data.token,
-                user: login.data.user,
-            });
-            localStorage.setItem('auth-token', login.data.token);
-            history.push('/');
-        } catch (error) {
-            setError(error.response.data.msg);
+export const Login = (props) => {
+    const alertContext = useContext(AlertContext);
+    const authContext = useContext(AuthContext);
+    const { setAlert } = alertContext;
+    const { login, error, clearErrors, isAuthenticated } = authContext; 
+    
+    useEffect(() => {
+        if (isAuthenticated) {
+            props.history.push('/');
         }
-    }
+
+        if (error === 'Invalid Credentials') {
+            setAlert(error, 'danger');
+            clearErrors();
+        }
+    }, [error, isAuthenticated, props.history]);
+
+    const [user, setUser] = useState({
+        email_address: '',
+        password: ''
+    });
+
+    const { email_address, password } = user;
+
+    const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
+
+    const onSubmit = e => {
+        e.preventDefault();
+        if (email_address === '' || password === '') {
+            setAlert('Please fill in all fields', 'danger');
+        } else {
+            login({
+                email_address,
+                password
+            });
+        }
+    };
+
     return (
         <Section name="login-form">
             <Container>
                 <ContentBox header="Sign in to your account">
-                    {error && (
-                        <Alert color="danger">{error}</Alert>
-                    )}
                     <Form method="post" onSubmit={onSubmit}>
                         <FormGroup>
-                            <Label for="email">Email</Label>
-                            <Input type="email" name="email" id="email" placeholder="Enter your email address" onChange={(e) => setEmail(e.target.value)} />
+                            <Label for="email_address">Email</Label>
+                            <Input type="email" name="email_address" id="email_address" placeholder="Enter your email address" value={email_address} onChange={onChange}/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="password">Password</Label>
-                            <Input type="password" name="password" id="password" placeholder="Enter your password" onChange={(e) => setPassword(e.target.value)} />
+                            <Input type="password" name="password" id="password" placeholder="Enter your password" value={password} onChange={onChange} />
                         </FormGroup>
                         <Button color="success">Login</Button>
                     </Form>

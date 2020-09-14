@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Badge, Button } from 'reactstrap';
 
 export const formatPrice = (price) => {
@@ -17,7 +16,7 @@ export const formatBrand = (brand) => {
     case 'Quality Company Formations':
       return <Badge color="info" pill>Quality Company Formations</Badge>;
       break;
-    case 'Quality Company Formations':
+    case 'Blue Square Offices':
       return <Badge color="secondary" pill>Blue Square Offices</Badge>;
       break;
     default:
