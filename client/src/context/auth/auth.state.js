@@ -12,6 +12,7 @@ import {
     CLEAR_ERRORS
 } from 'context/types';
 
+
 const AuthState = props => {
     const initialState = {
         token: localStorage.getItem('token'),
@@ -28,7 +29,7 @@ const AuthState = props => {
         setAuthToken(localStorage.token);
 
         try {
-            const res = await axios.get('/api/auth/user');
+            const res = await axios.get('/api/auth/authenticate');
 
             dispatch({
                 type: USER_LOADED,
@@ -41,7 +42,6 @@ const AuthState = props => {
 
     // Login User
     const login = async formData => {
-        console.log(formData);
         try {
             const res = await axios.post('/api/auth/login', formData);
 

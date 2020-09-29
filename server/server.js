@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
 require('dotenv').config();
 
 const environment = process.env.NODE_ENV;
@@ -23,19 +24,15 @@ const userRoutes = require('./routes/user.routes');
 
 const authMiddlewares = require('./middlewares/auth.middleware');
 
-app.use(express.json());
-
-app.use(express.urlencoded({
-  extended: false,
-}));
-
+app.use(helmet());
+app.use(cors());
 app.use(limiter);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 if (environment !== 'production') {
   app.use(logger('dev'));
 }
-
-app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World.');

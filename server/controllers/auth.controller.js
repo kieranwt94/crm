@@ -8,10 +8,12 @@ const getAuthUser = async (req, res) => {
       where: { id: req.user.id },
       attributes: { exclude: ['password'] }
     });
+
     if (!user) {
-      return res.status(404).json({ msg: `User with id: ${req.user.id} not found.` });
+      return res.status(404).json({ msg: `Something went wrong. Please try again later.` });
     }
-    res.json(user);
+
+    return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -24,7 +26,7 @@ const login = async (req, res) => {
       return res.status(400).json({ msg: "Not all fields have been entered." });
     }
     const user = await User.findOne({
-      where: { email_address: email_address },
+      where: { email_address: email_address }
     });
     if(!user) {
       return res.status(404).json({ msg: `User with email: ${email_address} not found.` });
@@ -40,13 +42,14 @@ const login = async (req, res) => {
       const payload = {
         user: {
           id: user.id,
-        },
+          name: user.name,
+          role: user.role
+        }
       };
 
       jwt.sign(payload, process.env.JWT_TOKEN, { expiresIn: 360000, }, (err, token) => {
           if (err) throw err;
-          console.log(`token: ${token}`);
-          res.json({ token });
+          res.status(200).json({ token });
         },
       );
     });
@@ -55,7 +58,12 @@ const login = async (req, res) => {
   }
 }
 
+const logout = async (req, res) => {
+
+}
+
 module.exports = {
   login,
+  logout,
   getAuthUser
 }
