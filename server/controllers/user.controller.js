@@ -1,17 +1,18 @@
 const { User } = require('../models');
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: { exclude: ['password'] }
     });
     return res.status(200).json({ users });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await User.findOne({
@@ -21,22 +22,25 @@ const getUserById = async (req, res) => {
     if (user) {
       return res.status(200).json({ user });
     }
-    return res.status(404).json({ msg: `User with id: ${id} not found.` });
+    res.status(404);
+    const error = new Error(`User with id: ${id} not found.`);
+    next(error);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 }
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    return res.status(201).json({ msg: 'User has been created.', user: user });
+    return res.status(201).json({ message: 'User has been created.', user: user });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const [updated] = await User.update(req.body, {
@@ -44,26 +48,33 @@ const updateUser = async (req, res) => {
     });
     if (updated) {
       const updatedUser = await User.findOne({ where: { id: id } });
-      return res.status(200).json({ msg: `User id: ${id} has been updated.`, user: updatedUser });
+      return res.status(200).json({ message: `User id: ${id} has been updated.`, user: updatedUser });
     }
-    return res.status(404).json({ msg: `User with id: ${id} not found.` });
+    res.status(404);
+    const error = new Error(`User with id: ${id} not found.`);
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deleted = await User.destroy({
       where: { id: id }
     });
     if (deleted) {
-      return res.status(200).json({ msg: `User id: ${id} has been deleted.`, user: deleted });
+      return res.status(200).json({ message: `User id: ${id} has been deleted.`, user: deleted });
     }
-    return res.status(404).json({ msg: 'User not found.' });
+    res.status(404);
+    const error = new Error('User not found');
+    next(error);
+
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 };
 

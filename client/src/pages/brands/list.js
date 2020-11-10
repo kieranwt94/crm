@@ -19,7 +19,7 @@ export const BrandsList = () => {
     const columns = [
         { dataField: 'id', text: 'ID', sort: true },
         { dataField: 'name', text: 'Name', sort: true },
-        { align: 'right', formatter: formatActionButton, formatExtraData: { type: pluralize(type), history} }
+        { classes: 'table__actions', align: 'right', formatter: formatActionButton, formatExtraData: { type: pluralize(type), history} }
     ];
 
     useEffect(() => {

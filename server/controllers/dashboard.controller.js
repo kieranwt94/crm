@@ -1,6 +1,6 @@
 const { Brand, Customer, Order, Service } = require('../models');
 
-const getStats = async (req, res) => {
+const getStats = async (req, res, next) => {
   try {
     const totalBrands = await Brand.count();
     const totalCustomers = await Customer.count();
@@ -15,11 +15,12 @@ const getStats = async (req, res) => {
       ]
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const getLatestOrders = async (req, res) => {
+const getLatestOrders = async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       limit: 10,
@@ -46,7 +47,8 @@ const getLatestOrders = async (req, res) => {
     });
     return res.status(200).json({ orders });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 

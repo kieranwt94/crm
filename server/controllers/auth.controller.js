@@ -1,69 +1,167 @@
 const bcrypt = require('bcrypt-nodejs');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
+const { roles } = require('../roles');
 
-const getAuthUser = async (req, res) => {
+const getAuthUser = async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { id: req.user.id },
       attributes: { exclude: ['password'] }
     });
-
-    if (!user) {
-      return res.status(404).json({ msg: `Something went wrong. Please try again later.` });
-    }
-
-    return res.status(200).json(user);
+    res.status(200).json(user);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const login = async (req, res) => {
+const isLoggedIn = (req, res, next) => {
+  if (req.user) {
+    next();
+  } else {
+    const error = new Error('No authentication token provided, authorization denied.');
+    res.status(401);
+    next(error);
+  }
+}
+
+const checkTokenSetUser = async (req, res, next) => {
+  const token = req.header('x-auth-token');
+  if (!token) {
+    const error = new Error('No authentication token provided, authorization denied.');
+    res.status(401);
+    next(error);
+  }
+
+  try {
+    await jwt.verify(token, process.env.JWT_TOKEN, (error, decoded) => {
+      if (error) {
+        const error = new Error('Token verification failed, authorization denied.');
+        res.status(500);
+        next(error);
+      }
+      req.user = decoded.user;
+      next();
+    });
+  } catch (error) {
+    res.status(500);
+    next(error.message);
+  }
+}
+
+const grantAccess = function (action, resource) {
+  return async (req, res, next) => {
+    try {
+      const permission = roles.can(req.user.role)[action](resource);
+      if (!permission.granted) {
+        res.status(401);
+        const error = new Error('You do not have sufficient permissions to access this resource.');
+        next(error);
+      }
+      next();
+    } catch (error) {
+      res.status(500);
+      next(error.message);
+    }
+  }
+}
+
+const register = async (req, res, next) => {
+  try {
+    const { name, email_address, password, role } = req.body;
+    const user = await User.findOne({
+      where: { email_address: email_address },
+      attributes: { exclude: ['password'] }
+    });
+    if (user) {
+      res.status(400);
+      const error = new Error(`User with email: ${email_address} already exists.`);
+      next(error);
+    }
+    const newUser = await User.create({
+      name: name,
+      password: password,
+      email_address: email_address,
+      role: role || 'guest'
+    });
+    res.status(200).json({
+      data: {
+        id: newUser.id,
+        name: newUser.name,
+        email_address: newUser.email_address,
+        role: newUser.role
+      },
+      message: 'You have signed up successfully.'
+    });
+  } catch (error) {
+    res.status(500);
+    next(error.message);
+  }
+}
+
+const login = async (req, res, next) => {
   try {
     const { email_address, password } = req.body;
     if (!email_address || !password) {
-      return res.status(400).json({ msg: "Not all fields have been entered." });
+      res.status(400);
+      const error = new Error('Not all fields have been entered.');
+      next(error);
     }
     const user = await User.findOne({
       where: { email_address: email_address }
     });
-    if(!user) {
-      return res.status(404).json({ msg: `User with email: ${email_address} not found.` });
+    if (!user) {
+      res.status(404);
+      const error = new Error(`User with email: ${email_address} not found.`);
+      next(error);
     }
-    bcrypt.compare(req.body.password, user.password, function (err, isMatch) {
-      if (err) {
-        return res.status(500).json({ error: err.message });
+    bcrypt.compare(password, user.password, function (error, isMatch) {
+      if (error) {
+        res.status(500);
+        next(error.message);
       }
-      if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid Credentials' });
+      if (isMatch) {
+        const payload = {
+          user: {
+            id: user.id,
+            name: user.name,
+            role: user.role,
+            email_address: user.email_address
+          }
+        };
+
+        jwt.sign( payload, process.env.JWT_TOKEN, { expiresIn: '1d' }, (error, token) => {
+          if(error) {
+            res.status(500);
+            next(error.message);
+          }
+          res.status(200).json({
+            token
+          });
+        });
+      } else {
+        res.status(400);
+        const error = new Error('Incorrect credentials.');
+        next(error);
       }
-
-      const payload = {
-        user: {
-          id: user.id,
-          name: user.name,
-          role: user.role
-        }
-      };
-
-      jwt.sign(payload, process.env.JWT_TOKEN, { expiresIn: 360000, }, (err, token) => {
-          if (err) throw err;
-          res.status(200).json({ token });
-        },
-      );
     });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const logout = async (req, res) => {
+const logout = async (req, res, next) => {
 
 }
 
 module.exports = {
+  isLoggedIn,
+  checkTokenSetUser,
+  grantAccess,
+  getAuthUser,
+  register,
   login,
-  logout,
-  getAuthUser
+  logout
 }

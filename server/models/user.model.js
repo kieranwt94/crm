@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt-nodejs');
+const jwt = require('jsonwebtoken');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -21,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   User.beforeCreate(function (user, options) {
-    user.role = 'user';
     return cryptPassword(user.password)
       .then((success) => {
         user.password = success;
@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   User.beforeBulkCreate(function (user, options) {
-    user.role = 'user';
     return cryptPassword(user.password)
       .then((success) => {
         user.password = success;

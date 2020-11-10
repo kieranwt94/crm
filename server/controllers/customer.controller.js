@@ -1,15 +1,16 @@
 const { Customer } = require('../models');
 
-const getAllCustomers = async (req, res) => {
+const getAllCustomers = async (req, res, next) => {
   try {
     const customers = await Customer.findAll();
     return res.status(200).json({ customers });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const getCustomerById = async (req, res) => {
+const getCustomerById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const customer = await Customer.findOne({
@@ -18,22 +19,26 @@ const getCustomerById = async (req, res) => {
     if (customer) {
       return res.status(200).json({ customer });
     }
-    return res.status(404).json({ msg: `Customer with id: ${id} not found.` });
+    res.status(404);
+    const error = new Error(`Customer with id: ${id} not found.`);
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const createCustomer = async (req, res) => {
+const createCustomer = async (req, res, next) => {
   try {
     const customer = await Customer.create(req.body);
-    return res.status(201).json({ msg: 'Customer has been created.', customer: customer });
+    return res.status(201).json({ message: 'Customer has been created.', customer: customer });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const updateCustomer = async (req, res) => {
+const updateCustomer = async (req, res, next) => {
 try {
     const { id } = req.params;
     const [updated] = await Customer.update(req.body, {
@@ -41,26 +46,32 @@ try {
     });
     if (updated) {
       const updatedCustomer = await Customer.findOne({ where: { id: id } });
-      return res.status(200).json({ msg: `Customer id: ${id} has been updated.`, customer: updatedCustomer });
+      return res.status(200).json({ message: `Customer id: ${id} has been updated.`, customer: updatedCustomer });
     }
-    return res.status(404).json({ msg: `Customer with id: ${id} not found.` });
+    res.status(404);
+    const error = new Error(`Customer with id: ${id} not found.`);
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 };
 
-const deleteCustomer = async (req, res) => {
+const deleteCustomer = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deleted = await Customer.destroy({
       where: { id: id }
     });
     if (deleted) {
-      return res.status(200).json({ msg: `Customer id: ${id} has been deleted.`, customer: deleted });
+      return res.status(200).json({ message: `Customer id: ${id} has been deleted.`, customer: deleted });
     }
-    return res.status(404).json({ msg: 'Customer not found.' });
+    res.status(404);
+    const error = new Error('Brand not found');
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 };
 

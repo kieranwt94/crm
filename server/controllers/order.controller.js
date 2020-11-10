@@ -1,6 +1,6 @@
 const { Order, Brand, Customer, Service } = require('../models');
 
-const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res, next) => {
   try {
     const orders = await Order.findAll({
       include: [
@@ -23,11 +23,12 @@ const getAllOrders = async (req, res) => {
     });
     return res.status(200).json({ orders });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const getOrderById = async (req, res) => {
+const getOrderById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const order = await Order.findOne({
@@ -36,22 +37,26 @@ const getOrderById = async (req, res) => {
     if (order) {
       return res.status(200).json({ order });
     }
-    return res.status(404).json({ msg: `Order with id: ${id} not found.` });
+    res.status(404);
+    const error = new Error(`Order with id: ${id} not found.`);
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const createOrder = async (req, res) => {
+const createOrder = async (req, res, next) => {
   try {
     const order = await Order.create(req.body);
-    return res.status(201).json({ msg: 'Order has been created.', order: order });
+    return res.status(201).json({ message: 'Order has been created.', order: order });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 }
 
-const updateOrder = async (req, res) => {
+const updateOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
     const [updated] = await Order.update(req.body, {
@@ -59,26 +64,32 @@ const updateOrder = async (req, res) => {
     });
     if (updated) {
       const updatedOrder = await Order.findOne({ where: { id: id } });
-      return res.status(200).json({ msg: `Order id: ${id} has been updated.`, order: updatedOrder });
+      return res.status(200).json({ message: `Order id: ${id} has been updated.`, order: updatedOrder });
     }
-    return res.status(404).json({ msg: `Order with id: ${id} not found.` });
+    res.status(404);
+    const error = new Error(`Order with id: ${id} not found.`);
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 };
 
-const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res, next) => {
   try {
     const { id } = req.params;
     const deleted = await Order.destroy({
       where: { id: id }
     });
     if (deleted) {
-      return res.status(200).json({ msg: `Order id: ${id} has been deleted.`, order: deleted });
+      return res.status(200).json({ message: `Order id: ${id} has been deleted.`, order: deleted });
     }
-    return res.status(404).json({ msg: 'Order not found.' });
+    res.status(404);
+    const error = new Error('Order not found');
+    next(error);
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    res.status(500);
+    next(error.message);
   }
 };
 

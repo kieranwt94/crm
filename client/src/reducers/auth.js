@@ -1,31 +1,35 @@
 import {
     USER_LOADED,
-    AUTH_ERROR,
     LOGIN_SUCCESS,
-    LOGIN_FAIL,
     LOGOUT,
-    CLEAR_ERRORS
-} from 'context/types';
+} from 'actions/types';
 
-export default (state, action) => {
-    switch (action.type) {
+const initialState = {
+    token: localStorage.getItem('token'),
+    isAuthenticated: null,
+    loading: true,
+    user: null
+};
+
+export default function (state = initialState, action) {
+    const { type, payload } = action;
+
+    switch (type) {
         case USER_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                user: action.payload
+                user: payload
             };
         case LOGIN_SUCCESS:
-            localStorage.setItem('token', action.payload.token);
+            localStorage.setItem('token', payload.token);
             return {
                 ...state,
-                ...action.payload,
+                ...payload,
                 isAuthenticated: true,
                 loading: false
             };
-        case AUTH_ERROR:
-        case LOGIN_FAIL:
         case LOGOUT:
             localStorage.removeItem('token');
             return {
@@ -33,15 +37,9 @@ export default (state, action) => {
                 token: null,
                 isAuthenticated: false,
                 loading: false,
-                user: null,
-                error: action.payload
-            };
-        case CLEAR_ERRORS:
-            return {
-                ...state,
-                error: null
+                user: null
             };
         default:
             return state;
     }
-};
+}
