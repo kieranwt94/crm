@@ -10,18 +10,18 @@ module.exports = {
       },
       brand_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       customer_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       service_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       total: {
-        type: Sequelize.DECIMAL(13,2)
+        type: Sequelize.DECIMAL(13, 2)
       },
       form_data: {
         type: Sequelize.JSON
@@ -37,9 +37,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Orders');
+    return queryInterface.dropTable('Orders')
   }
-};
+}

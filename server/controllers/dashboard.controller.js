@@ -1,11 +1,11 @@
-const { Brand, Customer, Order, Service } = require('../models');
+const { Brand, Customer, Order, Service } = require('../models')
 
 const getStats = async (req, res, next) => {
   try {
-    const totalBrands = await Brand.count();
-    const totalCustomers = await Customer.count();
-    const totalOrders = await Order.count();
-    const totalServices = await Service.count();
+    const totalBrands = await Brand.count()
+    const totalCustomers = await Customer.count()
+    const totalOrders = await Order.count()
+    const totalServices = await Service.count()
     return res.status(200).json({
       stats: [
         { name: 'brands', count: totalBrands },
@@ -13,10 +13,10 @@ const getStats = async (req, res, next) => {
         { name: 'orders', count: totalOrders },
         { name: 'services', count: totalServices }
       ]
-    });
+    })
   } catch (error) {
-    res.status(500);
-    next(error.message);
+    res.status(500)
+    next(error.message)
   }
 }
 
@@ -25,7 +25,7 @@ const getLatestOrders = async (req, res, next) => {
     const orders = await Order.findAll({
       limit: 10,
       order: [
-          ['id', 'DESC']
+        ['id', 'DESC']
       ],
       include: [
         {
@@ -44,11 +44,11 @@ const getLatestOrders = async (req, res, next) => {
           attributes: ['name']
         }
       ]
-    });
-    return res.status(200).json({ orders });
+    })
+    return res.status(200).json({ orders })
   } catch (error) {
-    res.status(500);
-    next(error.message);
+    res.status(500)
+    next(error.message)
   }
 }
 

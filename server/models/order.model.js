@@ -5,24 +5,24 @@ module.exports = (sequelize, DataTypes) => {
     service_id: DataTypes.INTEGER,
     total: DataTypes.DECIMAL,
     form_data: DataTypes.JSON,
-    status: DataTypes.INTEGER,
-  }, {});
+    status: DataTypes.INTEGER
+  }, {})
   Order.associate = function (models) {
     Order.belongsTo(models.Brand, {
       foreignKey: 'brand_id',
       as: 'brand',
-      onDelete: 'CASCADE',
-    });
+      onDelete: 'CASCADE'
+    })
     Order.belongsTo(models.Customer, {
       foreignKey: 'customer_id',
       as: 'customer',
-      onDelete: 'CASCADE',
-    });
+      onDelete: 'CASCADE'
+    })
     Order.belongsTo(models.Service, {
       foreignKey: 'service_id',
       as: 'service',
-      onDelete: 'CASCADE',
-    });
-  };
-  return Order;
-};
+      onDelete: 'CASCADE'
+    })
+  }
+  return Order
+}

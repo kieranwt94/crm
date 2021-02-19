@@ -66,9 +66,9 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }
-    ]);
+    ])
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Services', null, {});
+    return queryInterface.bulkDelete('Services', null, {})
   }
-};
+}

@@ -1,7 +1,11 @@
-const AccessControl = require('accesscontrol');
-const ac = new AccessControl();
+const AccessControl = require('accesscontrol')
+const ac = new AccessControl()
 
 exports.roles = (function () {
+  ac.grant('api')
+    .createAny('customer')
+    .createAny('order')
+
   ac.grant('user')
     .readAny('brand')
     .readAny('customer')
@@ -29,5 +33,5 @@ exports.roles = (function () {
     .deleteAny('service')
     .deleteAny('user')
 
-  return ac;
-})();
+  return ac
+})()
